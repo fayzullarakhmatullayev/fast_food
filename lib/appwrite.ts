@@ -56,8 +56,8 @@ export const signOut = async () => {
   try {
     await account.deleteSession('current');
   } catch (err: any) {
-    console.log(err);
-    throw new Error(err);
+    console.error('Sign out failed:', err);
+    throw new Error(err?.message || 'Failed to sign out.');
   }
 };
 
@@ -66,10 +66,10 @@ export const getCurrentUser = async () => {
     const user = await account.get();
     if (!user) throw new Error('Failed to get user');
 
-    const currentUser = await databases.getDocument(
+    const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId!,
       appwriteConfig.userCollectionId!,
-      Query.equal('accountId', user.$id)
+      [Query.equal('accountId', user.$id)]
     );
 
     if (!currentUser) throw new Error('Failed to get current user');

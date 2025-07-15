@@ -1,10 +1,11 @@
 import { images } from '@/constants';
+import useAuthStore from '@/store/auth.store';
 import { Redirect, Slot } from 'expo-router';
 import React from 'react';
 import { Dimensions, Image, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 
 const AuthLayout = () => {
-  const isAuthenticated = true;
+  const { isAuthenticated } = useAuthStore();
 
   if (isAuthenticated) return <Redirect href="/" />;
 
