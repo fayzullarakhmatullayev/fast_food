@@ -1,5 +1,9 @@
 import CustomButton from '@/components/CustomButton';
 import CustomInput from '@/components/CustomInput';
+import * as Sentry from '@sentry/react-native';
+// eslint-disable-next-line import/no-unresolved
+import { createUser } from '@/lib/appwrite';
+
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, Text, View } from 'react-native';
@@ -9,20 +13,26 @@ const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.email || !form.password || !form.name)
       return Alert.alert('Error', 'Please fill all the fields');
     setIsSubmitting(true);
 
     try {
       // Appwrite sign in
-      Alert.alert('Success', 'Sign up successful');
-      setIsSubmitting(false);
+      await createUser({
+        email: form.email,
+        password: form.password,
+        name: form.name
+      });
 
       router.replace('/');
     } catch (err: any) {
       console.log(err);
       Alert.alert('Error', err.message);
+      Sentry.captureEvent(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (

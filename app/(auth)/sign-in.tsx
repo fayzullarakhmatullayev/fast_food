@@ -1,27 +1,32 @@
 import CustomButton from '@/components/CustomButton';
 import CustomInput from '@/components/CustomInput';
+import * as Sentry from '@sentry/react-native';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, Text, View } from 'react-native';
+
+// eslint-disable-next-line import/no-unresolved
+import { signIn } from '@/lib/appwrite';
 
 const SignIn = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ email: '', password: '' });
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.email || !form.password) return Alert.alert('Error', 'Please fill all the fields');
     setIsSubmitting(true);
 
     try {
       // Appwrite sign in
-      Alert.alert('Success', 'Sign in successful');
-      setIsSubmitting(false);
-
+      await signIn({ email: form.email, password: form.password });
       router.replace('/');
     } catch (err: any) {
       console.log(err);
       Alert.alert('Error', err.message);
+      Sentry.captureEvent(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
