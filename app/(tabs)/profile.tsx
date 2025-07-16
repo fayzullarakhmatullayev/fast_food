@@ -1,11 +1,14 @@
+import CustomHeader from '@/components/CustomHeader';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Profile = () => {
   return (
-    <View>
+    <SafeAreaView className="bg-white h-full p-5">
+      <CustomHeader title="Your Profile" />
       <Text>Profile</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 
