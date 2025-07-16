@@ -1,6 +1,7 @@
 import CartButton from '@/components/CartButton';
 import { images, offers } from '@/constants';
 import cn from 'clsx';
+import { router } from 'expo-router';
 import { Fragment } from 'react';
 import { FlatList, Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +19,9 @@ export default function Index() {
                 className={cn('offer-card', isEven ? 'flex-row-reverse' : 'flex-row')}
                 style={{ backgroundColor: item.color }}
                 android_ripple={{ color: '#ffff22' }}
+                onPress={() => {
+                  router.push(`/search?category=${item.category}`);
+                }}
               >
                 {({ pressed }) => (
                   <Fragment>
