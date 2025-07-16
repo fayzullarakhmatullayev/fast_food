@@ -8,7 +8,7 @@ import { Category, MenuItem } from '@/type';
 import cn from 'clsx';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Search = () => {
@@ -56,6 +56,13 @@ const Search = () => {
           </View>
         )}
         ListEmptyComponent={() => !loading && <Text className="text-center">No results</Text>}
+        ListFooterComponent={() =>
+          loading ? (
+            <View className="items-center justify-center py-10">
+              <ActivityIndicator size="large" color="#FE8C00" />
+            </View>
+          ) : null
+        }
       />
     </SafeAreaView>
   );
