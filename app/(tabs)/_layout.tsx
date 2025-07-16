@@ -2,7 +2,6 @@ import { images } from '@/constants';
 import { TabBarIconProps } from '@/type';
 import cn from 'clsx';
 import { Tabs } from 'expo-router';
-import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 const TabBarIcon = ({ focused, icon, title }: TabBarIconProps) => (
